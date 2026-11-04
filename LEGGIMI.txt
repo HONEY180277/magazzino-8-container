@@ -1,0 +1,25 @@
+MAGAZZINO 8 CONTAINER – PACCHETTO BASE FIREBASE
+
+IMPORTANTE
+- Questo è un pacchetto iniziale da configurare e pubblicare: non è già online.
+- Non inserire dati reali finché configurazione e regole Firestore non sono state verificate.
+- Il PIN di 6 cifre è un blocco locale di comodità memorizzato nel browser; NON sostituisce l'autenticazione Firebase e non protegge da un utente esperto che modifica il browser.
+- Ogni dispositivo deve essere autorizzato con l'account Firebase una prima volta. Il login resta memorizzato dal browser.
+- La sincronizzazione richiede Internet. La cache offline Firestore è limitata e non garantisce tutte le operazioni offline.
+- Le regole incluse consentono lettura/scrittura a qualsiasi utente Firebase autenticato. Usare questo progetto solo con l'account dedicato e non condividere credenziali con persone non autorizzate.
+
+CONFIGURAZIONE
+1. In firebase-config.js sostituire i valori INSERISCI_* con quelli della scheda Config dell'app web Firebase.
+2. In Firebase Console > Firestore Database > Regole, pubblicare il contenuto di firestore.rules.
+3. Abilitare Authentication > Sign-in method > Email/Password e creare l'utente dedicato (già fatto).
+4. Pubblicare i file su un hosting HTTPS che supporti moduli JavaScript. Il solo ZIP non rende l'app accessibile agli altri dispositivi.
+5. Aprire l'indirizzo pubblicato in Chrome su ciascun dispositivo e accedere una prima volta con l'utente Firebase; poi impostare il PIN locale.
+
+FUNZIONI BASE
+- Inserimento e modifica materiali con container C01-C08, zona, scatola, scaffale e ripiano.
+- Ricerca per nome/codice.
+- Carico/scarico con controllo quantità.
+- Registro degli ultimi 50 movimenti.
+- Esportazione backup JSON.
+
+Questo pacchetto è un prototipo iniziale. Prima di usarlo per gestire inventario reale, verificare regole, backup, hosting e funzionamento sui dispositivi effettivi.
