@@ -1,28 +1,112 @@
 <!doctype html>
 <html lang="it">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#173b57"><link rel="manifest" href="manifest.webmanifest">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#173b57">
+<link rel="manifest" href="manifest.webmanifest">
 <title>Magazzino 8 Container</title>
 <style>
-:root{font-family:system-ui,Arial;color:#17212b;background:#f3f6f8}body{margin:0}header{background:#173b57;color:white;padding:16px}main{max-width:900px;margin:auto;padding:14px}.card{background:white;border-radius:12px;padding:16px;margin:12px 0;box-shadow:0 1px 5px #0001}input,select,button{font:inherit;padding:11px;border:1px solid #cbd5dc;border-radius:8px;margin:4px 0;max-width:100%;box-sizing:border-box}input,select{width:100%}button{background:#173b57;color:white;border:0;cursor:pointer}button.secondary{background:#e5edf2;color:#173b57}button.danger{background:#a52b2b}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}.hidden{display:none}.item{border-top:1px solid #e2e8ec;padding:10px 0}.muted{color:#60717d;font-size:.9em}.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}.row>*{flex:1}.pill{display:inline-block;background:#e5edf2;border-radius:20px;padding:3px 9px;font-size:.85em}h2{margin-top:0}
+:root{font-family:system-ui,Arial;color:#17212b;background:#f3f6f8}
+body{margin:0}
+header{background:#173b57;color:white;padding:16px}
+main{max-width:900px;margin:auto;padding:14px}
+.card{background:white;border-radius:12px;padding:16px;margin:12px 0;box-shadow:0 1px 5px #0001}
+input,select,button{font:inherit;padding:11px;border:1px solid #cbd5dc;border-radius:8px;margin:4px 0;max-width:100%;box-sizing:border-box}
+input,select{width:100%}
+button{background:#173b57;color:white;border:0;cursor:pointer}
+button.secondary{background:#e5edf2;color:#173b57}
+button.danger{background:#a52b2b}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
+.hidden{display:none}
+.item{border-top:1px solid #e2e8ec;padding:10px 0}
+.muted{color:#60717d;font-size:.9em}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.row>*{flex:1;min-width:0}
+.pill{display:inline-block;background:#e5edf2;border-radius:20px;padding:3px 9px;font-size:.85em}
+h2{margin-top:0}
+.search-panel{background:#f7fafc;border:1px solid #dce5eb;border-radius:10px;padding:12px;margin:8px 0 14px}
+.search-title{font-weight:700;margin:0 0 6px}
+.search-actions{display:flex;gap:8px;flex-wrap:wrap}
+.search-actions button{flex:1;min-width:115px}
+.container-card{margin:0;box-shadow:none;border:1px solid #e2e8ec}
+.container-card.active{border:2px solid #173b57;background:#edf4f8}
+#resultcount{margin:8px 0}
+@media(max-width:520px){
+ main{padding:8px}
+ .card{padding:12px}
+ .search-actions{display:grid;grid-template-columns:1fr 1fr}
+ .search-actions button{min-width:0}
+ .row{gap:4px}
+ .row button{font-size:.9em;padding:9px 6px}
+}
 </style>
 </head>
 <body>
 <header><h1>Magazzino 8 Container</h1><div id="status">Connessione in preparazione…</div></header>
 <main>
-<section id="auth" class="card"><h2>Accesso iniziale</h2><p class="muted">Inserisci le credenziali Firebase create per il magazzino. Dopo il primo accesso resteranno memorizzate su questo dispositivo.</p><input id="email" type="email" placeholder="Email"><input id="password" type="password" placeholder="Password"><button id="login">Accedi</button><p id="authmsg" class="muted"></p></section>
-<section id="pin" class="card hidden"><h2 id="pintitle">PIN magazzino</h2><p id="pinhelp" class="muted">Inserisci il PIN di 6 cifre.</p><input id="pin1" type="password" inputmode="numeric" maxlength="6" placeholder="PIN a 6 cifre"><input id="pin2" class="hidden" type="password" inputmode="numeric" maxlength="6" placeholder="Ripeti PIN"><button id="pinbtn">Continua</button><p id="pinmsg" class="muted"></p></section>
+<section id="auth" class="card">
+  <h2>Accesso iniziale</h2>
+  <p class="muted">Inserisci le credenziali Firebase create per il magazzino. Dopo il primo accesso resteranno memorizzate su questo dispositivo.</p>
+  <input id="email" type="email" placeholder="Email">
+  <input id="password" type="password" placeholder="Password">
+  <button id="login">Accedi</button>
+  <p id="authmsg" class="muted"></p>
+</section>
+<section id="pin" class="card hidden">
+  <h2 id="pintitle">PIN magazzino</h2>
+  <p id="pinhelp" class="muted">Inserisci il PIN di 6 cifre.</p>
+  <input id="pin1" type="password" inputmode="numeric" maxlength="6" placeholder="PIN a 6 cifre">
+  <input id="pin2" class="hidden" type="password" inputmode="numeric" maxlength="6" placeholder="Ripeti PIN">
+  <button id="pinbtn">Continua</button>
+  <p id="pinmsg" class="muted"></p>
+</section>
 <section id="app" class="hidden">
-<div class="card"><div class="row"><input id="search" placeholder="Cerca materiale per nome o codice"><button id="logout" class="secondary">Esci</button></div><div class="grid" id="containers"></div></div>
-<div class="card"><h2 id="formtitle">Aggiungi materiale</h2><input id="docid" type="hidden"><div class="grid">
-<input id="name" placeholder="Nome materiale *"><input id="code" placeholder="Codice"><input id="qty" type="number" min="0" step="0.01" placeholder="Quantità iniziale"><input id="unit" placeholder="Unità (pz, kg, m…)">
-<select id="container"><option value="C01">Container C01</option><option>C02</option><option>C03</option><option>C04</option><option>C05</option><option>C06</option><option>C07</option><option>C08</option></select>
-<input id="zone" placeholder="Zona"><input id="box" placeholder="Scatola"><input id="shelf" placeholder="Scaffale"><input id="rack" placeholder="Ripiano"><input id="notes" placeholder="Note">
-</div><button id="save">Salva materiale</button><button id="cancel" class="secondary hidden">Annulla modifica</button></div>
-<div class="card"><h2>Materiali</h2><div id="materials" class="muted">Caricamento…</div></div>
-<div class="card"><h2>Movimenti recenti</h2><div id="movements" class="muted">Caricamento…</div><button id="export" class="secondary">Esporta backup JSON</button></div>
+  <div class="card">
+    <div class="search-panel">
+      <p class="search-title">Cerca materiale</p>
+      <input id="search" type="search" placeholder="Nome, codice, container, zona, scatola, scaffale, note…">
+      <div class="search-actions">
+        <button id="searchBtn">Cerca materiale</button>
+        <button id="clearSearch" class="secondary">Pulisci ricerca</button>
+      </div>
+      <p class="muted">Puoi cercare anche per unità di misura e posizione. La ricerca si aggiorna mentre scrivi.</p>
+    </div>
+    <div class="row"><span class="muted">Seleziona un container per filtrare i materiali</span><button id="logout" class="secondary">Esci</button></div>
+    <div class="grid" id="containers"></div>
+  </div>
+  <div class="card">
+    <h2 id="formtitle">Aggiungi materiale</h2>
+    <input id="docid" type="hidden">
+    <div class="grid">
+      <input id="name" placeholder="Nome materiale *">
+      <input id="code" placeholder="Codice">
+      <input id="qty" type="number" min="0" step="0.01" placeholder="Quantità iniziale">
+      <input id="unit" placeholder="Unità (pz, kg, m…)">
+      <select id="container">
+        <option value="C01">Container C01</option><option value="C02">C02</option><option value="C03">C03</option><option value="C04">C04</option><option value="C05">C05</option><option value="C06">C06</option><option value="C07">C07</option><option value="C08">C08</option>
+      </select>
+      <input id="zone" placeholder="Zona">
+      <input id="box" placeholder="Scatola">
+      <input id="shelf" placeholder="Scaffale">
+      <input id="rack" placeholder="Ripiano">
+      <input id="notes" placeholder="Note">
+    </div>
+    <button id="save">Salva materiale</button>
+    <button id="cancel" class="secondary hidden">Annulla modifica</button>
+  </div>
+  <div class="card">
+    <h2>Materiali</h2>
+    <div id="resultcount" class="muted"></div>
+    <div id="materials" class="muted">Caricamento…</div>
+  </div>
+  <div class="card">
+    <h2>Movimenti recenti</h2>
+    <div id="movements" class="muted">Caricamento…</div>
+    <button id="export" class="secondary">Esporta backup JSON</button>
+  </div>
 </section>
 </main>
 <script type="module" src="app.js"></script>
-</body></html>
+</body>
+</html>
