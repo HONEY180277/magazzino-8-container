@@ -1,26 +1,55 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
-import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, limit, serverTimestamp, enableIndexedDbPersistence } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+import {
+  getAuth,
+  onAuthStateChanged,
+  signInWithEmailAndPassword
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+
+import {
+  getFirestore,
+  collection,
+  addDoc,
+  doc,
+  updateDoc,
+  deleteDoc,
+  onSnapshot,
+  query,
+  orderBy,
+  limit,
+  serverTimestamp,
+  enableIndexedDbPersistence
+} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
 import { firebaseConfig } from "./firebase-config.js";
 
 const $ = id => document.getElementById(id);
 const status = $("status");
-let app, auth, db, materials = [], movements = [], unsubM, unsubH;
+
+let app, auth, db;
+let materials = [];
+let movements = [];
+let unsubM, unsubH;
 let selectedContainer = "";
 
 const show = id => {
-  ["auth", "pin", "app"].forEach(x => $(x).classList.toggle("hidden", x !== id));
+  ["auth", "pin", "app"].forEach(x =>
+    $(x).classList.toggle("hidden", x !== id)
+  );
 };
+
 const configured = !firebaseConfig.apiKey.startsWith("INSERISCI");
 
 if (!configured) {
   status.textContent = "Configura prima firebase-config.js";
-  $("authmsg").textContent = "Il file firebase-config.js contiene ancora i valori segnaposto.";
+  $("authmsg").textContent =
+    "Il file firebase-config.js contiene ancora i valori segnaposto.";
 } else {
   app = initializeApp(firebaseConfig);
   auth = getAuth(app);
   db = getFirestore(app);
+
   enableIndexedDbPersistence(db).catch(() => {});
+
   onAuthStateChanged(auth, user => {
     if (user) {
       status.textContent = "Collegato a Firebase";
@@ -34,33 +63,48 @@ if (!configured) {
 
 $("login").onclick = async () => {
   try {
-    await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
+    await signInWithEmailAndPassword(
+      auth,
+      $("email").value.trim(),
+      $("password").value
+    );
     $("authmsg").textContent = "Accesso riuscito.";
   } catch (e) {
-    $("authmsg").textContent = "Accesso non riuscito: controlla email e password.";
+    $("authmsg").textContent =
+      "Accesso non riuscito: controlla email e password.";
   }
 };
 
 function startPin() {
   const saved = localStorage.getItem("magazzino_pin_v1");
+
   $("pin2").classList.toggle("hidden", !!saved);
-  $("pintitle").textContent = saved ? "Inserisci il PIN" : "Crea il PIN del magazzino";
+  $("pintitle").textContent = saved
+    ? "Inserisci il PIN"
+    : "Crea il PIN del magazzino";
+
   $("pinhelp").textContent = saved
     ? "Inserisci il PIN di 6 cifre per aprire il magazzino."
     : "Scegli un PIN di 6 cifre. Sarà memorizzato solo su questo dispositivo.";
+
   $("pinmsg").textContent = "";
   $("pin1").value = "";
   $("pin2").value = "";
+
   show("pin");
 }
 
 $("pinbtn").onclick = () => {
-  const a = $("pin1").value, b = $("pin2").value;
+  const a = $("pin1").value;
+  const b = $("pin2").value;
   const saved = localStorage.getItem("magazzino_pin_v1");
+
   if (!/^\d{6}$/.test(a)) {
-    $("pinmsg").textContent = "Il PIN deve contenere esattamente 6 cifre.";
+    $("pinmsg").textContent =
+      "Il PIN deve contenere esattamente 6 cifre.";
     return;
   }
+
   if (saved) {
     if (a !== saved) {
       $("pinmsg").textContent = "PIN non corretto.";
@@ -71,8 +115,10 @@ $("pinbtn").onclick = () => {
       $("pinmsg").textContent = "I due PIN non coincidono.";
       return;
     }
+
     localStorage.setItem("magazzino_pin_v1", a);
   }
+
   openApp();
 };
 
@@ -86,14 +132,29 @@ function listen() {
   if (unsubM) unsubM();
   if (unsubH) unsubH();
 
-  unsubM = onSnapshot(collection(db, "materials"), s => {
-    materials = s.docs.map(d => ({ id: d.id, ...d.data() }));
-    render();
-  }, e => status.textContent = "Errore materiali: " + e.message);
+  unsubM = onSnapshot(
+    collection(db, "materials"),
+    s => {
+      materials = s.docs.map(d => ({
+        id: d.id,
+        ...d.data()
+      }));
+      render();
+    },
+    e => status.textContent = "Errore materiali: " + e.message
+  );
 
-  const q = query(collection(db, "movements"), orderBy("createdAt", "desc"), limit(50));
+  const q = query(
+    collection(db, "movements"),
+    orderBy("createdAt", "desc"),
+    limit(50)
+  );
+
   unsubH = onSnapshot(q, s => {
-    movements = s.docs.map(d => ({ id: d.id, ...d.data() }));
+    movements = s.docs.map(d => ({
+      id: d.id,
+      ...d.data()
+    }));
     renderMovements();
   }, () => {});
 }
@@ -105,6 +166,7 @@ $("save").onclick = async () => {
     alert("Inserisci il nome del materiale.");
     return;
   }
+
   const data = {
     name: val("name"),
     code: val("code"),
@@ -118,14 +180,17 @@ $("save").onclick = async () => {
     notes: val("notes"),
     updatedAt: serverTimestamp()
   };
+
   try {
     const id = val("docid");
+
     if (id) {
       await updateDoc(doc(db, "materials", id), data);
     } else {
       data.createdAt = serverTimestamp();
       await addDoc(collection(db, "materials"), data);
     }
+
     clearForm();
   } catch (e) {
     alert("Salvataggio non riuscito: " + e.message);
@@ -133,7 +198,11 @@ $("save").onclick = async () => {
 };
 
 function clearForm() {
-  ["docid", "name", "code", "qty", "unit", "zone", "box", "shelf", "rack", "notes"].forEach(x => $(x).value = "");
+  [
+    "docid", "name", "code", "qty", "unit",
+    "zone", "box", "shelf", "rack", "notes"
+  ].forEach(x => $(x).value = "");
+
   $("formtitle").textContent = "Aggiungi materiale";
   $("cancel").classList.add("hidden");
 }
@@ -142,24 +211,36 @@ $("cancel").onclick = clearForm;
 
 function edit(m) {
   $("docid").value = m.id;
-  ["name", "code", "qty", "unit", "container", "zone", "box", "shelf", "rack", "notes"].forEach(k => $(k).value = m[k] ?? "");
+
+  [
+    "name", "code", "qty", "unit", "container",
+    "zone", "box", "shelf", "rack", "notes"
+  ].forEach(k => $(k).value = m[k] ?? "");
+
   $("formtitle").textContent = "Modifica materiale";
   $("cancel").classList.remove("hidden");
+
   window.scrollTo(0, 0);
 }
 
 async function move(m, delta) {
-  const amount = Number(prompt("Quantità da " + (delta > 0 ? "caricare" : "scaricare") + ":"));
+  const amount = Number(
+    prompt("Quantità da " + (delta > 0 ? "caricare" : "scaricare") + ":")
+  );
+
   if (!Number.isFinite(amount) || amount <= 0) return;
+
   if (delta < 0 && amount > Number(m.quantity || 0)) {
     alert("Quantità insufficiente.");
     return;
   }
+
   try {
     await updateDoc(doc(db, "materials", m.id), {
       quantity: Number(m.quantity || 0) + delta * amount,
       updatedAt: serverTimestamp()
     });
+
     await addDoc(collection(db, "movements"), {
       materialId: m.id,
       name: m.name,
@@ -181,85 +262,201 @@ async function remove(m) {
   }
 }
 
+function matchesTerm(m, term) {
+  const searchable = [
+    m.name,
+    m.code,
+    m.container,
+    m.zone,
+    m.box,
+    m.shelf,
+    m.rack,
+    m.notes,
+    m.unit
+  ].join(" ").toLocaleLowerCase("it");
+
+  return searchable.includes(term);
+}
+
 function render() {
   const term = val("search").toLocaleLowerCase("it");
+
   const list = materials.filter(m => {
-    const matchesContainer = !selectedContainer || m.container === selectedContainer;
-    const searchable = [
-      m.name, m.code, m.container, m.zone, m.box, m.shelf, m.rack, m.notes, m.unit
-    ].join(" ").toLocaleLowerCase("it");
-    return matchesContainer && (!term || searchable.includes(term));
+    const matchesContainer =
+      !selectedContainer || m.container === selectedContainer;
+
+    return matchesContainer &&
+      (!term || matchesTerm(m, term));
   });
 
   $("materials").innerHTML = list.length
     ? list.map(m => `
       <div class="item">
-        <b>${esc(m.name)}</b> <span class="pill">${esc(m.container || "")}</span>
-        <div>${esc(m.code || "")} · ${Number(m.quantity || 0)} ${esc(m.unit || "")}</div>
-        <div class="muted">Zona ${esc(m.zone || "—")} · Scatola ${esc(m.box || "—")} · Scaffale ${esc(m.shelf || "—")} · Ripiano ${esc(m.rack || "—")}</div>
-        ${m.notes ? `<div class="muted">Note: ${esc(m.notes)}</div>` : ""}
+        <b>${esc(m.name)}</b>
+        <span class="pill">${esc(m.container || "")}</span>
+        <div>
+          ${esc(m.code || "")} ·
+          ${Number(m.quantity || 0)}
+          ${esc(m.unit || "")}
+        </div>
+        <div class="muted">
+          Zona ${esc(m.zone || "—")} ·
+          Scatola ${esc(m.box || "—")} ·
+          Scaffale ${esc(m.shelf || "—")} ·
+          Ripiano ${esc(m.rack || "—")}
+        </div>
+        ${m.notes
+          ? `<div class="muted">Note: ${esc(m.notes)}</div>`
+          : ""}
         <div class="row">
           <button data-act="in" data-id="${esc(m.id)}">Carico</button>
           <button data-act="out" data-id="${esc(m.id)}">Scarico</button>
           <button class="secondary" data-act="edit" data-id="${esc(m.id)}">Modifica</button>
           <button class="danger" data-act="del" data-id="${esc(m.id)}">Elimina</button>
         </div>
-      </div>`).join("")
+      </div>
+    `).join("")
     : "Nessun materiale trovato.";
 
-  $("resultcount").textContent = `${list.length} material${list.length === 1 ? "e" : "i"} visualizzati`;
-  $("containers").innerHTML = Array.from({ length: 8 }, (_, i) => {
-    const c = "C" + String(i + 1).padStart(2, "0");
-    const n = materials.filter(m => m.container === c).length;
-    const active = selectedContainer === c ? " active" : "";
-    return `<div class="card container-card${active}">
-      <b>${c}</b><div>${n} material${n === 1 ? "e" : "i"}</div>
-      <button class="secondary" data-container="${c}">${selectedContainer === c ? "Selezionato" : "Mostra"}</button>
-    </div>`;
-  }).join("");
+  $("resultcount").textContent =
+    `${list.length} material${list.length === 1 ? "e" : "i"} visualizzati`;
+
+  $("containers").innerHTML = Array.from(
+    { length: 8 },
+    (_, i) => {
+      const c = "C" + String(i + 1).padStart(2, "0");
+
+      const n = materials.filter(
+        m => m.container === c
+      ).length;
+
+      const foundCount = term
+        ? materials.filter(
+            m => m.container === c && matchesTerm(m, term)
+          ).length
+        : 0;
+
+      const active =
+        selectedContainer === c ? " active" : "";
+
+      const highlight = foundCount > 0
+        ? 'style="border:3px solid #16803c;background:#e8f7ec;box-shadow:0 0 0 2px rgba(22,128,60,.12);cursor:pointer;"'
+        : 'style="cursor:pointer;"';
+
+      return `
+        <div
+          class="card container-card${active}"
+          data-container="${c}"
+          role="button"
+          tabindex="0"
+          aria-label="Apri il contenuto del container ${c}"
+          ${highlight}
+        >
+          <b>${c}</b>
+
+          ${
+            foundCount > 0
+              ? `<div style="color:#126b32;font-weight:700;margin:4px 0;">
+                   TROVATO · ${foundCount}
+                 </div>`
+              : ""
+          }
+
+          <div>${n} material${n === 1 ? "e" : "i"}</div>
+
+          <button class="secondary" data-container="${c}">
+            ${selectedContainer === c ? "Selezionato" : "Mostra"}
+          </button>
+        </div>
+      `;
+    }
+  ).join("");
+}
+
+function openContainer(container) {
+  selectedContainer =
+    selectedContainer === container ? "" : container;
+
+  $("search").value = "";
+
+  render();
+
+  $("materials").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 }
 
 function renderMovements() {
   $("movements").innerHTML = movements.length
-    ? movements.map(m => `<div class="item">${esc(m.type || "Movimento")} · ${esc(m.name || "")} · ${m.amount ?? ""} ${esc(m.unit || "")} <span class="muted">${esc(m.container || "")}</span></div>`).join("")
+    ? movements.map(m => `
+      <div class="item">
+        ${esc(m.type || "Movimento")} ·
+        ${esc(m.name || "")} ·
+        ${m.amount ?? ""}
+        ${esc(m.unit || "")}
+        <span class="muted">${esc(m.container || "")}</span>
+      </div>
+    `).join("")
     : "Nessun movimento registrato.";
 }
 
 $("materials").onclick = e => {
   const b = e.target.closest("button[data-act]");
   if (!b) return;
+
   const m = materials.find(x => x.id === b.dataset.id);
   if (!m) return;
-  ({
+
+  const actions = {
     in: () => move(m, 1),
     out: () => move(m, -1),
     edit: () => edit(m),
     del: () => remove(m)
-  })[b.dataset.act]();
+  };
+
+  actions[b.dataset.act]?.();
 };
 
 $("containers").onclick = e => {
-  const b = e.target.closest("button[data-container]");
-  if (!b) return;
-  selectedContainer = selectedContainer === b.dataset.container ? "" : b.dataset.container;
-  render();
-  $("materials").scrollIntoView({ behavior: "smooth", block: "start" });
+  const card = e.target.closest("[data-container]");
+  if (!card) return;
+
+  openContainer(card.dataset.container);
+};
+
+$("containers").onkeydown = e => {
+  if (e.key !== "Enter" && e.key !== " ") return;
+
+  const card = e.target.closest(".container-card");
+  if (!card) return;
+
+  e.preventDefault();
+  openContainer(card.dataset.container);
 };
 
 function runSearch() {
+  selectedContainer = "";
   render();
-  $("materials").scrollIntoView({ behavior: "smooth", block: "start" });
+
+  $("materials").scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
 }
 
 $("searchBtn").onclick = runSearch;
+
 $("search").addEventListener("keydown", e => {
   if (e.key === "Enter") runSearch();
 });
+
 $("clearSearch").onclick = () => {
   $("search").value = "";
   selectedContainer = "";
   render();
 };
+
 $("search").oninput = render;
 
 $("logout").onclick = async () => {
@@ -273,16 +470,25 @@ $("logout").onclick = async () => {
 };
 
 $("export").onclick = () => {
-  const blob = new Blob([JSON.stringify({ materials, movements }, null, 2)], { type: "application/json" });
+  const blob = new Blob(
+    [JSON.stringify({ materials, movements }, null, 2)],
+    { type: "application/json" }
+  );
+
   const a = document.createElement("a");
   a.href = URL.createObjectURL(blob);
   a.download = "backup-magazzino.json";
   a.click();
+
   URL.revokeObjectURL(a.href);
 };
 
 function esc(v) {
   return String(v ?? "").replace(/[&<>"']/g, c => ({
-    "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    "&": "&amp;",
+    "<": "&lt;",
+    ">": "&gt;",
+    '"': "&quot;",
+    "'": "&#39;"
   }[c]));
 }
