@@ -3,47 +3,295 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#173b57">
+<meta name="theme-color" content="#142f4d">
 <link rel="manifest" href="manifest.webmanifest">
 <title>Magazzino 8 Container</title>
+
 <style>
-:root{font-family:system-ui,Arial;color:#17212b;background:#f3f6f8}
-body{margin:0}
-header{background:#173b57;color:white;padding:16px}
-main{max-width:900px;margin:auto;padding:14px}
-.card{background:white;border-radius:12px;padding:16px;margin:12px 0;box-shadow:0 1px 5px #0001}
-input,select,button{font:inherit;padding:11px;border:1px solid #cbd5dc;border-radius:8px;margin:4px 0;max-width:100%;box-sizing:border-box}
-input,select{width:100%}
-button{background:#173b57;color:white;border:0;cursor:pointer}
-button.secondary{background:#e5edf2;color:#173b57}
-button.danger{background:#a52b2b}
-.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:8px}
-.hidden{display:none}
-.item{border-top:1px solid #e2e8ec;padding:10px 0}
-.muted{color:#60717d;font-size:.9em}
-.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.row>*{flex:1;min-width:0}
-.pill{display:inline-block;background:#e5edf2;border-radius:20px;padding:3px 9px;font-size:.85em}
-h2{margin-top:0}
-.search-panel{background:#f7fafc;border:1px solid #dce5eb;border-radius:10px;padding:12px;margin:8px 0 14px}
-.search-title{font-weight:700;margin:0 0 6px}
-.search-actions{display:flex;gap:8px;flex-wrap:wrap}
-.search-actions button{flex:1;min-width:115px}
-.container-card{margin:0;box-shadow:none;border:1px solid #e2e8ec}
-.container-card.active{border:2px solid #173b57;background:#edf4f8}
-#resultcount{margin:8px 0}
-@media(max-width:520px){
- main{padding:8px}
- .card{padding:12px}
- .search-actions{display:grid;grid-template-columns:1fr 1fr}
- .search-actions button{min-width:0}
- .row{gap:4px}
- .row button{font-size:.9em;padding:9px 6px}
+:root {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  color: #1c2938;
+  background: #f2f5f9;
+  font-synthesis: none;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #f2f5f9;
+}
+
+header {
+  background: linear-gradient(135deg, #102b49, #1d5278);
+  color: white;
+  padding: 25px 20px;
+  box-shadow: 0 4px 16px #102b492b;
+}
+
+header h1 {
+  max-width: 1000px;
+  margin: 0 auto 6px;
+  font-size: clamp(1.5rem, 4vw, 2rem);
+  letter-spacing: -.4px;
+}
+
+#status {
+  max-width: 1000px;
+  margin: auto;
+  color: #d8e8f5;
+  font-size: .92rem;
+}
+
+main {
+  max-width: 1000px;
+  margin: 24px auto;
+  padding: 0 16px 30px;
+}
+
+.card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  border-radius: 18px;
+  padding: 22px;
+  margin: 16px 0;
+  box-shadow: 0 5px 20px rgba(22,  forty,  sixty, .06);
+}
+
+h2 {
+  margin: 0 0 16px;
+  color: #173653;
+  font-size: 1.25rem;
+}
+
+p {
+  line-height: 1.5;
+}
+
+.muted {
+  color: #64748b;
+  font-size: .91rem;
+}
+
+input,
+select,
+button {
+  font: inherit;
+  max-width: 100%;
+  border-radius: 11px;
+}
+
+input,
+select {
+  width: 100%;
+  min-height: 46px;
+  padding: 11px 13px;
+  color: #1c2938;
+  background: #fff;
+  border: 1px solid #cbd5e1;
+  margin: 5px 0;
+}
+
+input:focus,
+select:focus {
+  outline: 3px solid #bfdbfe;
+  border-color: #3978ae;
+}
+
+button {
+  min-height: 46px;
+  padding: 11px 18px;
+  border: 0;
+  background: #1c527b;
+  color: white;
+  font-weight: 650;
+  cursor: pointer;
+  margin: 5px 5px 5px 0;
+  transition: background .15s ease, transform .15s ease;
+}
+
+button:active {
+  transform: scale(.98);
+}
+
+button:hover {
+  background: #123d61;
+}
+
+button.secondary {
+  background: #e8eef5;
+  color: #173653;
+}
+
+button.secondary:hover {
+  background: #d8e3ef;
+}
+
+button.danger {
+  background: #b42332;
+  color: white;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.row > * {
+  min-width: 0;
+}
+
+.pill {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: 30px;
+  background: #e8eef5;
+  color: #29445e;
+  font-size: .84rem;
+  font-weight: 600;
+}
+
+.search-panel {
+  background: #edf5fc;
+  border: 1px solid #d5e6f5;
+  border-radius: 15px;
+  padding: 17px;
+  margin: 0 0 18px;
+}
+
+.search-title {
+  margin: 0 0 9px;
+  color: #173653;
+  font-weight: 750;
+  font-size: 1.05rem;
+}
+
+.search-actions {
+  display: flex;
+  gap: 9px;
+  flex-wrap: wrap;
+}
+
+.search-actions button {
+  flex: 1;
+  min-width: 140px;
+}
+
+.container-card {
+  margin: 0;
+  padding: 15px 10px;
+  border: 1px solid #dce5ed;
+  border-radius: 13px;
+  background: #f8fafc;
+  box-shadow: none;
+  color: #173653;
+  font-weight: 700;
+  text-align: center;
+}
+
+.container-card:hover {
+  background: #edf4fa;
+  border-color: #9dbbd4;
+}
+
+.container-card.active {
+  border: 2px solid #1c527b;
+  background: #eaf3fa;
+}
+
+.item {
+  padding: 14px 2px;
+  border-top: 1px solid #e7edf2;
+  line-height: 1.55;
+}
+
+#resultcount {
+  margin: 8px 0 14px;
+  font-weight: 650;
+}
+
+#materials,
+#movements {
+  overflow-wrap: anywhere;
+}
+
+#save {
+  min-width: 170px;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 20px 16px;
+  }
+
+  main {
+    margin: 12px auto;
+    padding: 0 10px 24px;
+  }
+
+  .card {
+    padding: 16px;
+    border-radius: 15px;
+  }
+
+  .grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 9px;
+  }
+
+  .search-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .search-actions button {
+    min-width: 0;
+    padding: 10px 7px;
+  }
+
+  .row {
+    gap: 7px;
+  }
+
+  .row button {
+    padding: 10px 12px;
+  }
+
+  .container-card {
+    padding: 13px 6px;
+    font-size: .92rem;
+  }
+}
+
+@media (max-width: 360px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 </style>
 </head>
+
 <body>
-<header><h1>Magazzino 8 Container</h1><div id="status">Connessione in preparazione…</div></header>
+<header>
+  <h1>Magazzino 8 Container</h1>
+  <div id="status">Connessione in preparazione…</div>
+</header>
+
 <main>
 <section id="auth" class="card">
   <h2>Accesso iniziale</h2>
@@ -53,6 +301,7 @@ h2{margin-top:0}
   <button id="login">Accedi</button>
   <p id="authmsg" class="muted"></p>
 </section>
+
 <section id="pin" class="card hidden">
   <h2 id="pintitle">PIN magazzino</h2>
   <p id="pinhelp" class="muted">Inserisci il PIN di 6 cifre.</p>
@@ -61,6 +310,7 @@ h2{margin-top:0}
   <button id="pinbtn">Continua</button>
   <p id="pinmsg" class="muted"></p>
 </section>
+
 <section id="app" class="hidden">
   <div class="card">
     <div class="search-panel">
@@ -72,34 +322,51 @@ h2{margin-top:0}
       </div>
       <p class="muted">Puoi cercare anche per unità di misura e posizione. La ricerca si aggiorna mentre scrivi.</p>
     </div>
-    <div class="row"><span class="muted">Seleziona un container per filtrare i materiali</span><button id="logout" class="secondary">Esci</button></div>
+
+    <div class="row">
+      <span class="muted">Seleziona un container per filtrare i materiali</span>
+      <button id="logout" class="secondary">Esci</button>
+    </div>
+
     <div class="grid" id="containers"></div>
-  </div>
-  <div class="card">
+  </div>  <div class="card">
     <h2 id="formtitle">Aggiungi materiale</h2>
     <input id="docid" type="hidden">
+
     <div class="grid">
       <input id="name" placeholder="Nome materiale *">
       <input id="code" placeholder="Codice">
       <input id="qty" type="number" min="0" step="0.01" placeholder="Quantità iniziale">
       <input id="unit" placeholder="Unità (pz, kg, m…)">
+
       <select id="container">
-        <option value="C01">Container C01</option><option value="C02">C02</option><option value="C03">C03</option><option value="C04">C04</option><option value="C05">C05</option><option value="C06">C06</option><option value="C07">C07</option><option value="C08">C08</option>
+        <option value="C01">Container C01</option>
+        <option value="C02">Container C02</option>
+        <option value="C03">Container C03</option>
+        <option value="C04">Container C04</option>
+        <option value="C05">Container C05</option>
+        <option value="C06">Container C06</option>
+        <option value="C07">Container C07</option>
+        <option value="C08">Container C08</option>
       </select>
+
       <input id="zone" placeholder="Zona">
       <input id="box" placeholder="Scatola">
       <input id="shelf" placeholder="Scaffale">
       <input id="rack" placeholder="Ripiano">
       <input id="notes" placeholder="Note">
     </div>
+
     <button id="save">Salva materiale</button>
     <button id="cancel" class="secondary hidden">Annulla modifica</button>
   </div>
+
   <div class="card">
     <h2>Materiali</h2>
     <div id="resultcount" class="muted"></div>
     <div id="materials" class="muted">Caricamento…</div>
   </div>
+
   <div class="card">
     <h2>Movimenti recenti</h2>
     <div id="movements" class="muted">Caricamento…</div>
@@ -107,6 +374,7 @@ h2{margin-top:0}
   </div>
 </section>
 </main>
+
 <script type="module" src="app.js"></script>
 </body>
 </html>
