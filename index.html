@@ -4,17 +4,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#123b68">
-<title>Magazzino</title>
+<meta name="theme-color" content="#45552f">
+<title>Il mio magazzino</title>
 
 <style>
 :root {
-  --blu:#123b68;
-  --blu2:#1d5b96;
-  --sfondo:#f2f5f9;
+  --blu:#45552f;
+  --blu2:#596b3b;
+  --sfondo:#edf0e6;
   --bianco:#fff;
-  --testo:#172b42;
-  --bordo:#dce4ed;
+  --testo:#26321f;
+  --bordo:#d7ddca;
   --verde:#168653;
   --rosso:#c83d48;
 }
@@ -34,19 +34,21 @@ body {
 }
 
 header {
-  background:var(--blu);
+  background:linear-gradient(135deg,#657747,#354526);
   color:white;
-  padding:22px 18px;
+  padding:25px 18px;
+  box-shadow:0 4px 12px rgba(25,35,20,.2);
 }
 
 header h1 {
   margin:0;
-  font-size:25px;
+  font-size:26px;
+  letter-spacing:1.5px;
 }
 
 header p {
-  margin:6px 0 0;
-  opacity:.85;
+  margin:7px 0 0;
+  opacity:.9;
   font-size:14px;
 }
 
@@ -62,7 +64,7 @@ section, .panel {
   border-radius:16px;
   padding:16px;
   margin-bottom:15px;
-  box-shadow:0 3px 14px rgba(22,40,60,.06);
+  box-shadow:0 3px 14px rgba(40,50,30,.07);
 }
 
 h2 {
@@ -116,8 +118,8 @@ button {
 button:active { opacity:.8; }
 
 button.secondary {
-  background:#e8eef5;
-  color:var(--blu);
+  background:#e5e9dc;
+  color:#354526;
 }
 
 button.danger { background:var(--rosso); }
@@ -146,35 +148,18 @@ button.success { background:var(--verde); }
   font-size:16px;
 }
 
-.container-grid {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
-}
-
-.container-grid > * {
-  min-width:0;
-}
-
 #containers {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:12px;
+  gap:16px 12px;
+}
+
+#containers > * {
+  min-width:0;
 }
 
 #containers button {
   width:100%;
-  min-height:105px;
-  padding:14px 8px;
-  font-size:17px;
-  background:white;
-  color:var(--blu);
-  border:2px solid var(--bordo);
-  border-radius:14px;
-}
-
-#containers button:active {
-  background:#eaf2fb;
 }
 
 #materials {
@@ -196,7 +181,7 @@ button.success { background:var(--verde); }
 
 #resultcount {
   margin:10px 0;
-  color:#5b6d80;
+  color:#5b6d4b;
   font-size:14px;
 }
 
@@ -214,46 +199,21 @@ button.success { background:var(--verde); }
 #auth, #app { margin-top:15px; }
 
 #logout {
-  background:#e8eef5;
-  color:var(--blu);
+  background:#e5e9dc;
+  color:#354526;
 }
 
 #movements {
   overflow-wrap:anywhere;
 }
 
-.container-card {
-  min-height:120px;
-  padding:18px 10px;
-  border:2px solid #dce4ed;
-  border-radius:14px;
-  background:white;
-  text-align:center;
-  cursor:pointer;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  justify-content:center;
-  gap:8px;
-  font-size:17px;
-}
-
-.container-card b {
-  font-size:23px;
-  color:#123b68;
-}
-
-.container-card button {
-  width:100%;
-  min-height:42px;
-}
-
 @media(max-width:480px) {
   main { padding:11px; }
-  header { padding:20px 15px; }
+  header { padding:21px 15px; }
   section, .panel { padding:14px; }
   .form-grid { grid-template-columns:1fr; }
   button { padding:11px 12px; }
+  #containers { gap:14px 10px; }
 }
 </style>
 </head>
@@ -261,7 +221,7 @@ button.success { background:var(--verde); }
 <body>
 
 <header>
-  <h1>MAGAZZINO</h1>
+  <h1>IL MIO MAGAZZINO</h1>
   <p>Gestione materiali e container</p>
 </header>
 
