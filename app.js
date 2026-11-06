@@ -24,19 +24,54 @@ import { firebaseConfig } from "./firebase-config.js";
 
 const $ = id => document.getElementById(id);
 const status = $("status");
-
+const extraStyle = document.createElement("style");
+extraStyle.textContent = `
+.container-card {
+  min-height:120px;
+  padding:18px 10px;
+  border:2px solid #dce4ed;
+  border-radius:14px;
+  background:white;
+  text-align:center;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-size:17px;
+}
+.container-card b {
+  font-size:23px;
+  color:#123b68;
+}
+.container-card button {
+  width:100%;
+  min-height:42px;
+}
+  .hidden { display: none !important; }
+  .row { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .row button { flex:1; min-width:100px; }
+  .pill { display:inline-block; background:#e8eef5; color:#123b68; padding:4px 8px; border-radius:20px; margin-left:6px; }
+  .muted { color:#65758a; font-size:14px; margin-top:6px; }
+  .container-card.active { border-color:#1d5b96 !important; background:#eaf2fb !important; }
+  .container-back { width:100%; margin-bottom:12px; }
+  .container-heading { font-size:22px; font-weight:700; color:#123b68; margin:8px 0; }
+`;
+document.head.appendChild(extraStyle);
 let app, auth, db;
 let materials = [];
 let movements = [];
 let unsubM, unsubH;
 let selectedContainer = "";
+let containerView = false;
 
 const show = id => {
   ["auth", "pin", "app"].forEach(x =>
     $(x).classList.toggle("hidden", x !== id)
   );
 };
-
+show("auth");
 const configured = !firebaseConfig.apiKey.startsWith("INSERISCI");
 
 if (!configured) {
@@ -374,14 +409,56 @@ function render() {
 }
 
 function openContainer(container) {
-  selectedContainer =
-    selectedContainer === container ? "" : container;
+  selectedContainer = container;
+  containerView = true;
 
   $("search").value = "";
 
+  const searchSection = $("search").parentElement;
+  const containersSection = $("containers").parentElement;
+  const materialsSection = $("materials").parentElement;
+const formSection = $("formtitle").parentElement;
+formSection.classList.add("hidden");
+  searchSection.classList.add("hidden");
+  containersSection.classList.add("hidden");
+
+  let back = $("containerBack");
+
+  if (!back) {
+    back = document.createElement("button");
+    back.id = "containerBack";
+    back.className = "secondary container-back";
+    back.textContent = "← TORNA AI CONTAINER";
+    back.onclick = closeContainer;
+    materialsSection.insertBefore(back, materialsSection.firstChild);
+  }
+
+  materialsSection.querySelector("h2").textContent =
+    "Container " + container;
+
   render();
 
-  $("materials").scrollIntoView({
+  materialsSection.scrollIntoView({
+    behavior: "smooth",
+    block: "start"
+  });
+}
+
+function closeContainer() {
+  containerView = false;
+  $("formtitle").parentElement.classList.remove("hidden");
+  if ($("containerBack")) $("containerBack").remove();
+  selectedContainer = "";
+
+  $("search").parentElement.classList.remove("hidden");
+  $("containers").parentElement.classList.remove("hidden");
+
+  $("materials").parentElement.querySelector("h2").textContent =
+    "Materiali";
+
+  render();
+
+  $("containers").scrollIntoView({
     behavior: "smooth",
     block: "start"
   });
