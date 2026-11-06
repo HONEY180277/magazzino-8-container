@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -19,6 +20,10 @@
 }
 
 * { box-sizing:border-box; }
+
+.hidden {
+  display:none !important;
+}
 
 body {
   margin:0;
@@ -105,6 +110,7 @@ button {
   font-size:15px;
   font-weight:700;
   cursor:pointer;
+  touch-action:manipulation;
 }
 
 button:active { opacity:.8; }
@@ -150,13 +156,6 @@ button.success { background:var(--verde); }
   min-width:0;
 }
 
-.container-grid button,
-.container-grid .container,
-.container-grid .card {
-  min-height:100px;
-  border-radius:14px;
-}
-
 #containers {
   display:grid;
   grid-template-columns:repeat(2,minmax(0,1fr));
@@ -192,6 +191,7 @@ button.success { background:var(--verde); }
   border:1px solid var(--bordo);
   border-radius:12px;
   background:white;
+  overflow-wrap:anywhere;
 }
 
 #resultcount {
@@ -222,6 +222,32 @@ button.success { background:var(--verde); }
   overflow-wrap:anywhere;
 }
 
+.container-card {
+  min-height:120px;
+  padding:18px 10px;
+  border:2px solid #dce4ed;
+  border-radius:14px;
+  background:white;
+  text-align:center;
+  cursor:pointer;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  font-size:17px;
+}
+
+.container-card b {
+  font-size:23px;
+  color:#123b68;
+}
+
+.container-card button {
+  width:100%;
+  min-height:42px;
+}
+
 @media(max-width:480px) {
   main { padding:11px; }
   header { padding:20px 15px; }
@@ -245,6 +271,7 @@ button.success { background:var(--verde); }
 
 <section id="auth">
   <h2>Accesso</h2>
+
   <label for="email">Email</label>
   <input id="email" type="email" autocomplete="username">
 
@@ -255,16 +282,18 @@ button.success { background:var(--verde); }
   <div id="authmsg"></div>
 </section>
 
-<section id="pin">
+<section id="pin" class="hidden">
   <h2 id="pintitle">PIN</h2>
   <div id="pinhelp"></div>
+
   <input id="pin1" type="password" inputmode="numeric" placeholder="Inserisci PIN">
   <input id="pin2" type="password" inputmode="numeric" placeholder="Ripeti PIN">
+
   <button id="pinbtn" style="width:100%">CONFERMA PIN</button>
   <div id="pinmsg"></div>
 </section>
 
-<div id="app">
+<div id="app" class="hidden">
 
   <section>
     <div class="actions">
@@ -275,6 +304,7 @@ button.success { background:var(--verde); }
   <section class="search-area">
     <h2>Cerca materiale</h2>
     <input id="search" type="search" placeholder="Nome, codice, container...">
+
     <div class="search-buttons">
       <button id="searchBtn">CERCA</button>
       <button id="clearSearch" class="secondary">PULISCI</button>
@@ -301,6 +331,7 @@ button.success { background:var(--verde); }
         <label for="qty">Quantità</label>
         <input id="qty" type="number" step="any" placeholder="0">
       </div>
+
       <div>
         <label for="unit">Unità</label>
         <input id="unit" placeholder="Pezzi, kg, metri...">
@@ -324,14 +355,17 @@ button.success { background:var(--verde); }
         <label for="zone">Zona</label>
         <input id="zone">
       </div>
+
       <div>
         <label for="box">Scatola</label>
         <input id="box">
       </div>
+
       <div>
         <label for="shelf">Scaffale</label>
         <input id="shelf">
       </div>
+
       <div>
         <label for="rack">Ripiano</label>
         <input id="rack">
@@ -367,5 +401,6 @@ button.success { background:var(--verde); }
 </main>
 
 <script type="module" src="app.js"></script>
+
 </body>
 </html>
