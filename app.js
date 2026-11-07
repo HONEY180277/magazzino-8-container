@@ -124,6 +124,14 @@ if (!configured) {
     }
   });
 }
+$("login").onclick = async () => {
+  try {
+    await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
+    $("authmsg").textContent = "Accesso riuscito.";
+  } catch (e) {
+    $("authmsg").textContent = "Accesso non riuscito: controlla email e password.";
+  }
+};
 
 $("login").onclick = async () => {
   try {
