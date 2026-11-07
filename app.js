@@ -1,4 +1,4 @@
-import { initializeApp } from "https://gstatic.com";
+import {  } from "https://gstatic.com";
 import {
   getAuth,
   onAuthStateChanged,
