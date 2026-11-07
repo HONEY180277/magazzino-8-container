@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="it">
 <head>
@@ -9,211 +8,288 @@
 
 <style>
 :root {
-  --blu:#45552f;
-  --blu2:#596b3b;
-  --sfondo:#edf0e6;
-  --bianco:#fff;
-  --testo:#26321f;
-  --bordo:#d7ddca;
-  --verde:#168653;
-  --rosso:#c83d48;
+  --blu: #45552f;
+  --blu2: #596b3b;
+  --sfondo: #edf0e6;
+  --bianco: #fff;
+  --testo: #26321f;
+  --bordo: #d7ddca;
+  --verde: #168653;
+  --rosso: #c83d48;
 }
 
-* { box-sizing:border-box; }
+* { box-sizing: border-box; }
 
-.hidden {
-  display:none !important;
-}
+.hidden { display: none !important; }
 
 body {
-  margin:0;
-  background:var(--sfondo);
-  color:var(--testo);
-  font-family:Arial,sans-serif;
-  font-size:16px;
+  margin: 0;
+  background: #2b361e repeating-linear-gradient(45deg, #2b361e, #2b361e 10px, #26301a 10px, #26301a 20px);
+  color: #fff;
+  font-family: 'Arial Black', Gadget, sans-serif;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
 }
 
+/* NAVBAR SUPERIORE */
 header {
-  background:linear-gradient(135deg,#657747,#354526);
-  color:white;
-  padding:25px 18px;
-  box-shadow:0 4px 12px rgba(25,35,20,.2);
+  background: linear-gradient(to bottom, #4c5d35, #2f3b1b);
+  color: white;
+  padding: 15px;
+  text-align: center;
+  border-bottom: 3px solid #1f2712;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 header h1 {
-  margin:0;
-  font-size:26px;
-  letter-spacing:1.5px;
+  margin: 0;
+  font-size: 24px;
+  letter-spacing: 2px;
+  text-shadow: 2px 2px 0px #1f2712;
+  font-weight: 900;
+  width: 100%;
 }
 
-header p {
-  margin:7px 0 0;
-  opacity:.9;
-  font-size:14px;
+header p { display: none; }
+
+/* BOTTONE TORNA AI CONTAINER */
+.back-btn-top {
+  background: linear-gradient(to bottom, #596b3b, #384920);
+  border: 2px solid #1f2712;
+  border-radius: 8px;
+  color: white;
+  padding: 8px 15px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.3), 0 2px 4px rgba(0,0,0,0.4);
+  display: flex;
+  align-items: center;
+  gap:5px;
 }
 
 main {
-  width:100%;
-  max-width:850px;
-  margin:auto;
-  padding:15px;
+  width: 100%;
+  max-width: 600px;
+  margin: auto;
+  padding: 15px;
 }
 
 section, .panel {
-  background:white;
-  border-radius:16px;
-  padding:16px;
-  margin-bottom:15px;
-  box-shadow:0 3px 14px rgba(40,50,30,.07);
+  background: rgba(45, 57, 31, 0.85);
+  border: 2px solid #3d4f2b;
+  border-radius: 20px;
+  padding: 18px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
 h2 {
-  margin:0 0 14px;
-  color:var(--blu);
-  font-size:20px;
-}
-
-h3 {
-  margin:0 0 12px;
-  font-size:18px;
+  margin: 0 0 14px;
+  color: #fff;
+  font-size: 20px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  border-bottom: 2px solid #3d4f2b;
+  padding-bottom: 5px;
 }
 
 input, select, textarea {
-  width:100%;
-  min-height:48px;
-  padding:12px;
-  margin:5px 0 12px;
-  border:1px solid var(--bordo);
-  border-radius:10px;
-  background:white;
-  color:var(--testo);
-  font-size:16px;
-}
-
-textarea {
-  min-height:75px;
-  resize:vertical;
+  width: 100%;
+  min-height: 48px;
+  padding: 12px;
+  margin: 5px 0 12px;
+  border: 2px solid #3d4f2b;
+  border-radius: 10px;
+  background: #1e2613;
+  color: white;
+  font-size: 16px;
+  font-family: Arial, sans-serif;
 }
 
 label {
-  display:block;
-  font-weight:600;
-  font-size:14px;
-  margin-top:5px;
+  display: block;
+  font-weight: bold;
+  font-size: 14px;
+  margin-top: 5px;
+  color: #cdd6c2;
 }
 
+/* STILE BOTTONI BOMBATI 3D REALI */
 button {
-  min-height:46px;
-  padding:11px 16px;
-  border:0;
-  border-radius:10px;
-  background:var(--blu2);
-  color:white;
-  font-size:15px;
-  font-weight:700;
-  cursor:pointer;
-  touch-action:manipulation;
+  min-height: 50px;
+  padding: 12px 20px;
+  border: 2px solid #1f2712;
+  border-radius: 14px;
+  background: linear-gradient(to bottom, #596b3b, #384920);
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  touch-action: manipulation;
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.25), 0 5px 0 #1c2611, 0 8px 10px rgba(0,0,0,0.5);
+  transition: all 0.1s ease;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
 }
 
-button:active { opacity:.8; }
+button:active {
+  transform: translateY(4px);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.25), 0 1px 0 #1c2611, 0 2px 5px rgba(0,0,0,0.5);
+}
 
 button.secondary {
-  background:#e5e9dc;
-  color:#354526;
+  background: linear-gradient(to bottom, #8fa374, #506138);
 }
 
-button.danger { background:var(--rosso); }
-button.success { background:var(--verde); }
+button.danger {
+  background: linear-gradient(to bottom, #d24d57, #962d35);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.3), 0 5px 0 #5c181f, 0 8px 10px rgba(0,0,0,0.5);
+}
+button.danger:active {
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.3), 0 1px 0 #5c181f, 0 2px 5px rgba(0,0,0,0.5);
+}
 
+button.success {
+  background: linear-gradient(to bottom, #2ecc71, #1b854a);
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.3), 0 5px 0 #0e4d25, 0 8px 10px rgba(0,0,0,0.5);
+}
+button.success:active {
+  box-shadow: inset 0 2px 0 rgba(255,255,255,0.3), 0 1px 0 #0e4d25, 0 2px 5px rgba(0,0,0,0.5);
+}
+
+/* STRUTTURA SCHERMATA INTERNA */
+.container-header-info {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 15px;
+  margin-bottom: 20px;
+}
+
+/* RIQUADRI INFORMAZIONI ARROTONDATI E LUCIDI */
+.info-box-luxury {
+  background: linear-gradient(135deg, #232d16, #161f0e);
+  border: 2px solid #4a5c2d;
+  border-radius: 16px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  box-shadow: inset 0 0 8px rgba(0,0,0,0.6), 0 4px 6px rgba(0,0,0,0.3);
+}
+
+.info-box-icon {
+  width: 40px;
+  height: 40px;
+  background: #394720;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.4);
+}
+
+.info-box-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.info-box-label {
+  font-size: 11px;
+  color: #8da372;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-family: Arial, sans-serif;
+}
+
+.info-box-value {
+  font-size: 20px;
+  font-weight: bold;
+  color: #ffffff;
+}
+
+/* GRIGLIE E LAYOUT */
 .actions {
-  display:flex;
-  gap:9px;
-  flex-wrap:wrap;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
 }
+.actions button { flex: 1; }
 
-.actions button { flex:1; }
-
-.search-area {
-  margin-bottom:15px;
-}
-
+.search-area { margin-bottom: 20px; }
 .search-buttons {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:10px;
-}
-
-.search-buttons button {
-  min-height:50px;
-  font-size:16px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
 }
 
 #containers {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:16px 12px;
-}
-
-#containers > * {
-  min-width:0;
-}
-
-#containers button {
-  width:100%;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20px 15px;
 }
 
 #materials {
-  display:grid;
-  gap:10px;
+  display: grid;
+  gap: 12px;
 }
 
-#materials > * {
-  min-width:0;
+.material-card {
+  padding: 15px;
+  border: 2px solid #3d4f2b;
+  border-radius: 12px;
+  background: #1e2613;
+  box-shadow: inset 0 1px 3px rgba(0,0,0,0.5);
 }
 
-.material-card, .material, .item {
-  padding:13px;
-  border:1px solid var(--bordo);
-  border-radius:12px;
-  background:white;
-  overflow-wrap:anywhere;
+#status {
+  font-size: 12px;
+  text-align: center;
+  color: #8da372;
+  margin-bottom: 10px;
+  font-family: Arial, sans-serif;
 }
 
-#resultcount {
-  margin:10px 0;
-  color:#5b6d4b;
-  font-size:14px;
+/* BARRA DI NAVIGAZIONE INFERIORE (STILE SMARTPHONE/TABLET) */
+.bottom-nav-bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 65px;
+  background: linear-gradient(to bottom, #384722, #212c12);
+  border-top: 3px solid #1a240a;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  z-index: 999;
+  box-shadow: 0 -4px 10px rgba(0,0,0,0.5);
 }
 
-.form-grid {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:0 12px;
+.nav-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #8da372;
+  font-size: 11px;
+  text-decoration: none;
+  font-family: Arial, sans-serif;
+  cursor: pointer;
+}
+.nav-item.active {
+  color: #fff;
+  font-weight: bold;
+}
+.nav-item-icon {
+  font-size: 22px;
+  margin-bottom: 2px;
 }
 
-#status, #authmsg, #pinmsg {
-  font-size:14px;
-  margin:8px 0;
-}
-
-#auth, #app { margin-top:15px; }
-
-#logout {
-  background:#e5e9dc;
-  color:#354526;
-}
-
-#movements {
-  overflow-wrap:anywhere;
-}
-
-@media(max-width:480px) {
-  main { padding:11px; }
-  header { padding:21px 15px; }
-  section, .panel { padding:14px; }
-  .form-grid { grid-template-columns:1fr; }
-  button { padding:11px 12px; }
-  #containers { gap:14px 10px; }
+/* SPAZIATORE PER EVITARE CHE IL CONTENUTO VADA SOTTO LA BARRA INFERIORE */
+.bottom-spacer {
+  height: 80px;
 }
 </style>
 </head>
@@ -221,146 +297,74 @@ button.success { background:var(--verde); }
 <body>
 
 <header>
-  <h1>IL MIO MAGAZZINO</h1>
-  <p>Gestione materiali e container</p>
+  <button id="globalBackBtn" class="back-btn-top hidden">⬅ Torna</button>
+  <h1 id="mainTitle">MAGAZZINO</h1>
 </header>
 
 <main>
+  <div id="status"></div>
 
-<div id="status"></div>
-
-<section id="auth">
-  <h2>Accesso</h2>
-
-  <label for="email">Email</label>
-  <input id="email" type="email" autocomplete="username">
-
-  <label for="password">Password</label>
-  <input id="password" type="password" autocomplete="current-password">
-
-  <button id="login" style="width:100%">ACCEDI</button>
-  <div id="authmsg"></div>
-</section>
-
-<section id="pin" class="hidden">
-  <h2 id="pintitle">PIN</h2>
-  <div id="pinhelp"></div>
-
-  <input id="pin1" type="password" inputmode="numeric" placeholder="Inserisci PIN">
-  <input id="pin2" type="password" inputmode="numeric" placeholder="Ripeti PIN">
-
-  <button id="pinbtn" style="width:100%">CONFERMA PIN</button>
-  <div id="pinmsg"></div>
-</section>
-
-<div id="app" class="hidden">
-
-  <section>
-    <div class="actions">
-      <button id="logout" class="secondary">ESCI</button>
-    </div>
+  <!-- ACCESSO -->
+  <section id="auth">
+    <h2>Accesso</h2>
+    <label for="email">Email</label>
+    <input id="email" type="email" autocomplete="username">
+    <label for="password">Password</label>
+    <input id="password" type="password" autocomplete="current-password">
+    <button id="login" style="width:100%">ACCEDI</button>
+    <div id="authmsg"></div>
   </section>
 
-  <section class="search-area">
-    <h2>Cerca materiale</h2>
-    <input id="search" type="search" placeholder="Nome, codice, container...">
-
-    <div class="search-buttons">
-      <button id="searchBtn">CERCA</button>
-      <button id="clearSearch" class="secondary">PULISCI</button>
-    </div>
+  <!-- PIN -->
+  <section id="pin" class="hidden">
+    <h2 id="pintitle">PIN</h2>
+    <div id="pinhelp" style="font-size:14px; margin-bottom:15px; color:#cdd6c2; font-family:Arial,sans-serif;"></div>
+    <input id="pin1" type="password" inputmode="numeric" placeholder="Inserisci PIN">
+    <input id="pin2" type="password" inputmode="numeric" placeholder="Ripeti PIN">
+    <button id="pinbtn" style="width:100%">CONFERMA PIN</button>
+    <div id="pinmsg"></div>
   </section>
 
-  <section>
-    <h2>I tuoi container</h2>
-    <div id="containers"></div>
-  </section>
-
-  <section>
-    <h2 id="formtitle">Materiale</h2>
-    <input id="docid" type="hidden">
-
-    <label for="name">Nome materiale</label>
-    <input id="name" placeholder="Nome materiale">
-
-    <label for="code">Codice</label>
-    <input id="code" placeholder="Codice">
-
-    <div class="form-grid">
-      <div>
-        <label for="qty">Quantità</label>
-        <input id="qty" type="number" step="any" placeholder="0">
+  <!-- AREA APPLICAZIONE PRINCIPALE -->
+  <div id="app" class="hidden">
+    
+    <!-- SCHERMATA CONTAINER SINGOLO (DETTAGLIO) -->
+    <div id="containerDetailView" class="hidden">
+      <!-- CONTAINER ILLUSTRATO IN 3D AL CENTRO -->
+      <div style="display: flex; justify-content: center; margin: 15px 0;">
+        <div class="container-art-luxury" style="transform: perspective(300px) rotateX(10deg) rotateY(-15deg); position: relative; width: 100%; max-width: 320px; height: 160px; background: repeating-linear-gradient(90deg, #596b3b 0px, #596b3b 22px, #3c4b26 24px, #6e824a 26px, #313d1e 28px); border: 4px solid #1f2712; border-radius: 8px; box-shadow: inset 0 10px 20px rgba(255,255,255,0.2), inset 0 -15px 25px rgba(0,0,0,0.4), 8px 12px 15px rgba(0,0,0,0.6); overflow: hidden; display: flex; align-items: center; justify-content: center;">
+          <!-- Scanalature verticali ed ombre esterne -->
+          <div style="position: absolute; inset: 0; background: repeating-linear-gradient(90deg, transparent 0px, transparent 38px, rgba(0,0,0,0.3) 39px, rgba(255,255,255,0.1) 41px, transparent 42px);"></div>
+          <!-- Linee dei portelloni di chiusura a destra -->
+          <div style="position: absolute; top: 10px; right: 15px; bottom: 10px; width: 25%; border-left: 4px solid rgba(0,0,0,0.5); border-right: 4px solid rgba(0,0,0,0.5); background: repeating-linear-gradient(90deg, rgba(0,0,0,0.2) 0 5px, transparent 5px 12px);"></div>
+          <!-- Scritta centrale del container grande bianca -->
+          <div id="containerBigLabel" style="font-size: 65px; font-weight: 900; color: rgba(255,255,255,0.85); letter-spacing: 4px; text-shadow: 3px 3px 0px #1f2712; z-index: 2;">C01</div>
+        </div>
       </div>
 
-      <div>
-        <label for="unit">Unità</label>
-        <input id="unit" placeholder="Pezzi, kg, metri...">
-      </div>
-    </div>
-
-    <label for="container">Container</label>
-    <select id="container">
-      <option value="C01">C01</option>
-      <option value="C02">C02</option>
-      <option value="C03">C03</option>
-      <option value="C04">C04</option>
-      <option value="C05">C05</option>
-      <option value="C06">C06</option>
-      <option value="C07">C07</option>
-      <option value="C08">C08</option>
-    </select>
-
-    <div class="form-grid">
-      <div>
-        <label for="zone">Zona</label>
-        <input id="zone">
-      </div>
-
-      <div>
-        <label for="box">Scatola</label>
-        <input id="box">
+      <!-- BOX DELLE INFORMAZIONI ARROTONDATI E BOMBATI -->
+      <div class="container-header-info">
+        <div class="info-box-luxury">
+          <div class="info-box-icon">📦</div>
+          <div class="info-box-text">
+            <span class="info-box-label">Capacità</span>
+            <span class="info-box-value">1000 kg</span>
+          </div>
+        </div>
+        <div class="info-box-luxury">
+          <div class="info-box-icon">⚖</div>
+          <div class="info-box-text">
+            <span class="info-box-label">Quantità Attuale</span>
+            <span id="containerCurrentWeight" class="info-box-value">0 kg</span>
+          </div>
+        </div>
+        <div class="info-box-luxury">
+          <div class="info-box-icon">📍</div>
+          <div class="info-box-text">
+            <span class="info-box-label">Posizione</span>
+            <span id="containerCurrentPosition" class="info-box-value">--</span>
+          </div>
+        </div>
       </div>
 
-      <div>
-        <label for="shelf">Scaffale</label>
-        <input id="shelf">
-      </div>
-
-      <div>
-        <label for="rack">Ripiano</label>
-        <input id="rack">
-      </div>
-    </div>
-
-    <label for="notes">Note</label>
-    <textarea id="notes"></textarea>
-
-    <div class="actions">
-      <button id="save" class="success">SALVA</button>
-      <button id="cancel" class="secondary">ANNULLA</button>
-    </div>
-  </section>
-
-  <section>
-    <h2>Materiali</h2>
-    <div id="resultcount"></div>
-    <div id="materials"></div>
-  </section>
-
-  <section>
-    <h2>Movimenti</h2>
-    <div id="movements"></div>
-  </section>
-
-  <section>
-    <h2>Backup</h2>
-    <button id="export" style="width:100%">ESPORTA DATI JSON</button>
-  </section>
-
-</div>
-</main>
-
-<script type="module" src="app.js"></script>
-
-</body>
-</html>
+      <!-- PULSANTI AZIONE BOMBATI -->
