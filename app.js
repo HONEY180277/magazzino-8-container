@@ -30,7 +30,7 @@ let materials = [];
 let movements = [];
 let unsubM, unsubH;
 let selectedContainer = "";
-let currentView = "home"; // home, add, history, backup
+let currentView = "home"; 
 
 // Configurazione Extra CSS per i Container 3D Dinamici e i Listini
 const extraStyle = document.createElement("style");
@@ -124,14 +124,6 @@ if (!configured) {
     }
   });
 }
-$("login").onclick = async () => {
-  try {
-    await signInWithEmailAndPassword(auth, $("email").value.trim(), $("password").value);
-    $("authmsg").textContent = "Accesso riuscito.";
-  } catch (e) {
-    $("authmsg").textContent = "Accesso non riuscito: controlla email e password.";
-  }
-};
 
 $("login").onclick = async () => {
   try {
@@ -201,18 +193,15 @@ function listen() {
   }, () => {});
 }
 
-// GESTIONE NAVIGAZIONE SCHERMATE INFERIORI
 function navigateTo(view) {
   currentView = view;
-  selectedContainer = ""; // Resetta la visualizzazione interna
+  selectedContainer = ""; 
   
-  // Aggiorna classi bottoni navbar inferiore
-  $("navHome").classList.toggle("active", view === "home");
-  $("navAdd").classList.toggle("active", view === "add");
-  $("navHistory").classList.toggle("active", view === "history");
-  $("navSettings").classList.toggle("active", view === "backup");
+  $("navHome").className = view === "home" ? "nav-item active" : "nav-item";
+  $("navAdd").className = view === "add" ? "nav-item active" : "nav-item";
+  $("navHistory").className = view === "history" ? "nav-item active" : "nav-item";
+  $("navSettings").className = view === "backup" ? "nav-item active" : "nav-item";
 
-  // Mostra/Nascondi blocchi corretti
   $("containerDetailView").classList.add("hidden");
   $("globalBackBtn").classList.add("hidden");
   $("mainTitle").textContent = "MAGAZZINO";
@@ -235,26 +224,20 @@ $("navAdd").onclick = () => navigateTo("add");
 $("navHistory").onclick = () => navigateTo("history");
 $("navSettings").onclick = () => navigateTo("backup");
 
-// AGGIUNTA EVENTI AI PULSANTI AZIONE INTERNI DEL CONTAINER DI RIFERIMENTO
 $("btnActionCarico").onclick = () => {
   navigateTo("add");
   if (selectedContainer) $("container").value = selectedContainer;
   $("formtitle").textContent = "Effettua Carico";
 };
 
-$("btnActionScarico").onclick = () => {
+$("btnActionSale").onclick = () => {
   navigateTo("add");
   if (selectedContainer) $("container").value = selectedContainer;
   $("formtitle").textContent = "Effettua Scarico (Riduci)";
 };
 
-$("btnActionStoricoLocal").onclick = () => {
-  navigateTo("history");
-};
-
-$("globalBackBtn").onclick = () => {
-  navigateTo("home");
-};
+$("btnActionStoricoLocal").onclick = () => navigateTo("history");
+$("globalBackBtn").onclick = () => navigateTo("home");
 
 function selectContainer(cId) {
   selectedContainer = cId;
@@ -262,23 +245,18 @@ function selectContainer(cId) {
   $("globalBackBtn").classList.remove("hidden");
   $("containers").parentElement.classList.add("hidden");
   $("containerDetailView").classList.remove("hidden");
-  
   $("containerBigLabel").textContent = cId;
   
-  // Calcolo dati reali del singolo container selezionato
   const cMaterials = materials.filter(m => m.container === cId);
   const totalWeight = cMaterials.reduce((acc, curr) => acc + Number(curr.quantity || 0), 0);
-  
   $("containerCurrentWeight").textContent = `${totalWeight} kg`;
   
   const firstMat = cMaterials[0];
   $("containerCurrentPosition").textContent = firstMat ? `Z:${firstMat.zone || '--'} S:${firstMat.box || '--'}` : "A1-01";
-  
   render();
 }
 
 function render() {
-  // Rendering Lista Container Principale con Grafica 3D Rigata Lucida
   const containerList = ["C01", "C02", "C03", "C04", "C05", "C06", "C07", "C08"];
   const grid = $("containers");
   grid.innerHTML = "";
@@ -299,7 +277,6 @@ function render() {
     });
   }
 
-  // Rendering Materiali nel Container Selezionato o totali
   const matDiv = $("materials");
   matDiv.innerHTML = "";
   
@@ -320,7 +297,6 @@ function render() {
       </div>
     `;
     matDiv.appendChild(row);
-    
     row.querySelector(`#edit-${m.id}`).onclick = (e) => {
       e.stopPropagation();
       editMaterial(m);
@@ -329,3 +305,15 @@ function render() {
 }
 
 function editMaterial(m) {
+  navigateTo("add");
+  $("formtitle").textContent = "Modifica materiale";
+  $("docid").value = m.id;
+  $("name").value = m.name || "";
+  $("code").value = m.code || "";
+  $("qty").value = m.quantity || 0;
+  $("unit").value = m.unit || "";
+  $("container").value = m.container || "C01";
+  $("zone").value = m.zone || "";
+  $("box").value = m.box || "";
+  $("shelf").value = m.shelf || "";
+  $("rack").value = m.rack || "";
