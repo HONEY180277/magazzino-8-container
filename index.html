@@ -361,6 +361,86 @@ button.success { background:var(--verde); }
 </main>
 
 <script type="module" src="app.js"></script>
+<style>
+body { padding-bottom: 85px; }
 
+#bottom-nav {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  padding: 10px 6px calc(10px + env(safe-area-inset-bottom));
+  background: linear-gradient(135deg,#596b3b,#354526);
+  box-shadow: 0 -3px 12px #0004;
+  grid-template-columns: repeat(4,1fr);
+  gap: 6px;
+}
+
+#bottom-nav button {
+  min-height: 48px;
+  padding: 8px 3px;
+  border: 1px solid #aab894;
+  border-radius: 9px;
+  background: #45552f;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+}
+</style>
+
+<nav id="bottom-nav">
+  <button type="button" data-go="home">HOME</button>
+  <button type="button" data-go="history">STORICO</button>
+  <button type="button" data-go="backup">BACKUP</button>
+  <button type="button" data-go="top">INIZIO</button>
+</nav>
+
+<script>
+(function () {
+  const nav = document.getElementById('bottom-nav');
+  const app = document.getElementById('app');
+
+  function updateNav() {
+    nav.style.display =
+      app && !app.classList.contains('hidden') ? 'grid' : 'none';
+  }
+
+  if (app) {
+    new MutationObserver(updateNav).observe(app, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+  }
+
+  updateNav();
+
+  nav.addEventListener('click', function (event) {
+    const button = event.target.closest('button[data-go]');
+    if (!button) return;
+
+    const destination = button.dataset.go;
+    let target = null;
+
+    if (destination === 'home') target = app;
+    if (destination === 'history') {
+      target = document.getElementById('movements')?.parentElement;
+    }
+    if (destination === 'backup') {
+      target = document.getElementById('export')?.parentElement;
+    }
+    if (destination === 'top') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    if (target) target.scrollIntoView({
+      behavior: 'smooth',
+      block: 'start'
+    });
+  });
+})();
+</script>
 </body>
 </html>
