@@ -417,29 +417,45 @@ body { padding-bottom: 85px; }
   updateNav();
 
   nav.addEventListener('click', function (event) {
-    const button = event.target.closest('button[data-go]');
-    if (!button) return;
+  const button = event.target.closest('button[data-go]');
+  if (!button) return;
 
-    const destination = button.dataset.go;
-    let target = null;
+  const destination = button.dataset.go;
+  let target = null;
 
-    if (destination === 'home') target = app;
-    if (destination === 'history') {
-      target = document.getElementById('movements')?.parentElement;
-    }
-    if (destination === 'backup') {
-      target = document.getElementById('export')?.parentElement;
-    }
-    if (destination === 'top') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
+  if (destination === 'home') {
+    if (typeof closeContainer === 'function') closeContainer();
+    target = app;
+  }
 
-    if (target) target.scrollIntoView({
+  if (destination === 'history') {
+    const section = document.getElementById('movements')?.parentElement;
+    if (section) {
+      section.classList.remove('hidden');
+      target = section;
+    }
+  }
+
+  if (destination === 'backup') {
+    const section = document.getElementById('export')?.parentElement;
+    if (section) {
+      section.classList.remove('hidden');
+      target = section;
+    }
+  }
+
+  if (destination === 'top') {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    return;
+  }
+
+  if (target) {
+    target.scrollIntoView({
       behavior: 'smooth',
       block: 'start'
     });
-  });
+  }
+});
 })();
 </script>
 </body>
