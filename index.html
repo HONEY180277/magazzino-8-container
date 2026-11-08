@@ -424,7 +424,7 @@ body { padding-bottom: 85px; }
   let target = null;
 
   if (destination === 'home') {
-    if (typeof closeContainer === 'function') closeContainer();
+  document.querySelector('#containerToolbar .container-back')?.click();
     target = app;
   }
 
